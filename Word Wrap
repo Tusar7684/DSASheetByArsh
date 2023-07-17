@@ -1,0 +1,28 @@
+//User function Template for C++
+class Solution {
+public:
+    int solve(vector<int>nums, int k,int ind,int left,vector<vector<int>> &dp)
+    {
+        if(ind==nums.size()) return 0;
+        if(dp[ind][left]!=-1) return dp[ind][left];
+        if(left==0) left=k;
+        if(left==k )
+        {
+            return dp[ind][left]=solve(nums,k,ind+1,left-nums[ind],dp);
+        }
+        else
+        {
+            int place=INT_MAX;
+            if(nums[ind]+1<=left)
+            place=solve(nums,k,ind+1,left-nums[ind]-1,dp);
+            int not_place=pow(left,2)+solve(nums,k,ind,k,dp);
+            return dp[ind][left]=min(place,not_place);
+        }
+    }
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // Code here
+        vector<vector<int>> dp(nums.size(),vector<int>(k+1,-1));
+        return solve(nums,k,0,k,dp);
+    } 
+};
